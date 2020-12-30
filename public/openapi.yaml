@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  description: Testing app for bakalarsky project
+  version: 1.0.1
+  title: Openshift node pod
+paths:
+  /:
+    get:
+      description: Greeting from server
+      responses:
+        '200':
+          description: Greeting message.
+  /animals:
+    get:
+      description: Call another pod in Openshift cluster(like middleware)
+      responses:
+        '200':
+          description: Response from pod.
+
