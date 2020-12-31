@@ -7,6 +7,7 @@
   "private": false,
   "scripts": {
     "dev": "nodemon index.js",
+    "start": "nodemon index.js",
     "docs": "swagger-inline ./*.js --base ../openapiBase.yaml > public/openapi.yaml"
   },
   "dependencies": {
