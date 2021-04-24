@@ -2,12 +2,18 @@
 var express = require('express')
 var app = express()
 const axios = require('axios')
+const https = requiere('https')
 
 app.use(express.static('public'))
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
+})
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+const agent = https.Agent({
+    rejectUnauthorized: false
 })
 
 let animals = [
@@ -51,7 +57,8 @@ app.get("/api", async (req, res) => {
         const response = await axios.get("https://api.crc.testing:6443/api/v1/namespaces/monitoring-cluster/pods", {
             headers: {
                 Authorization: `Bearer ${token}`
-            }
+            },
+            httpsAgent: agent
         })
         res.json(response.data)
     } catch (e) {
