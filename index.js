@@ -2,7 +2,7 @@
 var express = require('express')
 var app = express()
 const axios = require('axios')
-const https = requiere('https')
+const https = require('https')
 
 app.use(express.static('public'))
 app.use(function (req, res, next) {
