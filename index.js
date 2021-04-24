@@ -47,12 +47,16 @@ app.get('/', function (req, res) {
 
 app.get("/api", async (req, res) => {
     const token = "sha256~ZyYAmTZg9-WUdjKowjMxvrN1-ZrS2B_59uKt9JxEQ9Y"
-    const response = await axios.get("https://api.crc.testing:6443/api/v1/namespaces/monitoring-cluster/pods", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    res.json(response.data)
+    try {
+        const response = await axios.get("https://api.crc.testing:6443/api/v1/namespaces/monitoring-cluster/pods", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        res.json(response.data)
+    } catch (e) {
+        console.log(e)
+    }
 })
 /*
  * @api [get] /animals
