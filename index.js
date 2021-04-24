@@ -65,7 +65,7 @@ app.get('/animals', async function (req, res) {
     res.json(animals)
 })
 
-const port = process.env.PORT || 8081
+const port = process.env.PORT || 8080
 app.listen(port, function () {
     console.log("Example app listening at port " + port)
 })
