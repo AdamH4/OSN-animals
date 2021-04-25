@@ -1,5 +1,6 @@
 
 var express = require('express')
+const Websocket = require("ws")
 var app = express()
 const axios = require('axios')
 const https = require('https')
@@ -52,15 +53,23 @@ app.get('/', function (req, res) {
 
 
 app.get("/api", async (req, res) => {
-    const token = "sha256~rKqQdgyu5XKg74N3Rauqtd5Ae6BSmmORLWRkcy5FTQg"
+    const token = "sha256~GH-OxdDKgiK1viaqXhy2W0-FxaeZyeg7RWscr99EP-M"
     try {
-        const response = await axios.get("https://api.crc.testing:6443/api/v1/namespaces/monitoring-cluster/pods", {
+        const socket = new Websocket("https://api.crc.testing:6443/api/v1/namespaces/monitoring-cluster/pods?watch=true", {
             headers: {
                 Authorization: `Bearer ${token}`
             },
-            httpsAgent: agent
         })
-        res.json(response.data)
+        socket.on("*", (event) => {
+            console.log(event)
+        })
+        // const response = await axios.get("https://api.crc.testing:6443/api/v1/namespaces/monitoring-cluster/pods", {
+        //     headers: {
+        //         Authorization: `Bearer ${token}`
+        //     },
+        //     httpsAgent: agent
+        // })
+        // res.json(response.data)
     } catch (e) {
         console.log(e)
     }
