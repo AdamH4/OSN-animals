@@ -58,7 +58,15 @@ app.get('/', function (req, res) {
 
 app.get("/socket", async (req, res) => {
     const kc = new k8s.KubeConfig();
-    kc.loadFromDefault();
+    const cluster = {
+        server: '',
+        skipTLSVerify: true
+    }
+    const user = {
+        token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IkdqSGQ1U0RMN2wzcklKeHV6OXZ6OXYyY3BoX0RTMnRoTUJ4d2N5Tzg0WFkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJtb25pdG9yaW5nLWNsdXN0ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoib2JzZXJ2ZXItdG9rZW4tODdsOGoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoib2JzZXJ2ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI3ODQ3MzFlNy02ZTNiLTQzMTktYmMyYy00ZWM5MjEzY2YzNmYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6bW9uaXRvcmluZy1jbHVzdGVyOm9ic2VydmVyIn0.zXZ0uTnLhSOIy5ElaA5OUs-z-k4ImUfJRlSXz9syHNo-Jf0XOnV1-YKu5yn090CL_D-mLD9FSuErd1UbKbIdIS8-UbhTAR4bhjWfz1QdpTuZ96p_RZWO1Wd0P5AzncgvPRhluLAOA1Bo_ga14S15kCf10rgJbew5OREu5gMq3yAi5hOItRlKanccf2aZ4rAwQE2D2VlxDBSzyarKvn_-uv3peVPpeJdEbL_L9P01eW40-w3rjPPRpHw2kMO52lFxHtQ6Wk7qBUrGVdbctmddeIm6EqAzsk-idAO0518Gri45_lxJ6sEJXBPeLSjMpeCNEnFyumpvOqgiKJ5f9h0Ziw'
+    }
+
+    kc.loadFromCluster(cluster);
 
     const watch = new k8s.Watch(kc);
     watch.watch('/api/v1/namespaces/monitoring-cluster/pods',
