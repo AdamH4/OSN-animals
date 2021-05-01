@@ -5,7 +5,7 @@ const fs = require('fs')
 var app = express()
 const axios = require('axios')
 const https = require('https')
-import * as k8s from '@kubernetes/client-node';
+const k8s = require('@kubernetes/client-node');
 
 app.use(express.static('public'))
 app.use(function (req, res, next) {
@@ -61,7 +61,7 @@ app.get("/socket", async (req, res) => {
     kc.loadFromDefault();
 
     const watch = new k8s.Watch(kc);
-    watch.watch('/api/v1/namespaces',
+    watch.watch('/api/v1/namespaces/monitoring-cluster/pods',
         // optional query parameters can go here.
         {
             allowWatchBookmarks: true,
@@ -69,33 +69,28 @@ app.get("/socket", async (req, res) => {
         // callback is called for each received object.
         (type, apiObj, watchObj) => {
             if (type === 'ADDED') {
-                // tslint:disable-next-line:no-console
                 console.log('new object:')
             } else if (type === 'MODIFIED') {
-                // tslint:disable-next-line:no-console
                 console.log('changed object:')
             } else if (type === 'DELETED') {
-                // tslint:disable-next-line:no-console
                 console.log('deleted object:')
             } else if (type === 'BOOKMARK') {
-                // tslint:disable-next-line:no-console
                 console.log(`bookmark: ${watchObj.metadata.resourceVersion}`)
             } else {
-                // tslint:disable-next-line:no-console
                 console.log('unknown type: ' + type)
             }
-            // tslint:disable-next-line:no-console
-            console.log(apiObj)
+            // if (apiObj.metadata.name === "monitoring-cluster") 
+            console.log(apiObj.metadata.name)
         },
         // done callback is called if the watch terminates normally
         (err) => {
-            // tslint:disable-next-line:no-console
             console.log(err)
         })
         .then((req) => {
             // watch returns a request object which you can use to abort the watch.
             setTimeout(() => { req.abort(); }, 10 * 1000)
         })
+    res.status(200).send("NOICE")
 })
 
 
