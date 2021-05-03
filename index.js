@@ -20,8 +20,6 @@ const agent = https.Agent({
     rejectUnauthorized: false
 })
 
-const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkdqSGQ1U0RMN2wzcklKeHV6OXZ6OXYyY3BoX0RTMnRoTUJ4d2N5Tzg0WFkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJtb25pdG9yaW5nLWNsdXN0ZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiZGVmYXVsdC10b2tlbi1uNWJjdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiN2U5MmJjMzMtMmE4Ni00MDhmLWI4NTUtNTQxOTVlNmUwMjJmIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Om1vbml0b3JpbmctY2x1c3RlcjpkZWZhdWx0In0.gKXRYHWQNgPMexXX1Hoq8U_YdkqcbtPlhLkFoRxJg7HnGpS_Iuka9fZsnq3n5RdDkyVepeHTZxlH-WQnYzJDrD8vdSSHGiUspPttlNd91uRJ8rixpRM9sc8xo5HG7EsBOjepuvK41LRGLeKMz90ovGz6uSFodOIJdptIAzC0LwiOONcRZ1aPq56xp0xVGFPF-LG47MBVGXEzRcCCcKEZCq9-Mpz0Szfm1RiO7uMyBkukq2Wq9rqPyA7UiRskThw0bieIZb92ug0vpKTEcjt07wUVDvsIOECaODNymb9i1oET12L5hFUBduKwZWBzRRgi5M1YPy3ad9W0QRF9_4qcqw"
-
 let animals = [
     {
         name: "zebra",
@@ -58,16 +56,16 @@ app.get('/', function (req, res) {
 
 app.get("/socket", async (req, res) => {
     const kc = new k8s.KubeConfig();
-    const cluster = {
-        server: 'https://api.crc.testing:6443/',
-        skipTLSVerify: true
-    }
-    const user = {
-        name: "kube-admin",
-        token: 'sha256~PC58Xr-U2s8IvHSpx6ie9bv6PPmBKEj__z9rHD-JjjY'
-    }
+    //const cluster = {
+    //    server: 'http://localhost:8001/',
+    //    skipTLSVerify: true
+    //}
+    //const user = {
+    //    name: "kube-admin",
+    //    token: 'sha256~PC58Xr-U2s8IvHSpx6ie9bv6PPmBKEj__z9rHD-JjjY'
+    //}
 
-    kc.loadFromClusterAndUser(cluster, user);
+    kc.loadFromDefault()
 
     const watch = new k8s.Watch(kc);
     watch.watch('/api/v1/namespaces/monitoring-cluster/pods',
